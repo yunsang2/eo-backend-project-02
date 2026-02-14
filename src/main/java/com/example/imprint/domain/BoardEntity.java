@@ -1,5 +1,6 @@
 package com.example.imprint.domain;
 
+import com.example.imprint.domain.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,12 +21,23 @@ public class BoardEntity extends BaseTimeEntity {
     @Column(nullable = false, length = 100) // null 불가, 최대 100자
     private String name; // 게시판 이름
 
+    // 게시판 만든사람
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id" , nullable = false)
+    private UserEntity creator;
+
     @Builder // 빌더 패턴 사용
-    public BoardEntity(String name) {
+    public BoardEntity(String name, UserEntity creator, boolean isPrivate) {
+        this.name = name;
+        this.creator = creator;
+    }
+
+    public void update(String name) {  // 게시판 이름 수정 메서드
         this.name = name;
     }
 
-    public void updateBoard(String name) {  // 게시판 이름 수정 메서드
-        this.name = name;
+    // 추가 : 만든 사람인지 확인
+    public boolean isCreator(Long userId) {
+        return this.creator != null && this.creator.getId().equals(userId);
     }
 }
