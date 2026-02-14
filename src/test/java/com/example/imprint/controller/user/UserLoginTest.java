@@ -77,8 +77,9 @@ class UserLoginTest {
     void authenticationCheckTest() throws Exception {
         mockMvc.perform(get("/account/user"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email").value("test@gmail.com"))
-                .andExpect(jsonPath("$.nickname").value("테스터"));
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.email").value("test@gmail.com"))
+                .andExpect(jsonPath("$.data.nickname").value("테스터"));
     }
 
     @Test

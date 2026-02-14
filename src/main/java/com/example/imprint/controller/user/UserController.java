@@ -1,5 +1,6 @@
 package com.example.imprint.controller.user;
 
+import com.example.imprint.domain.ApiResponseDto;
 import com.example.imprint.domain.user.UserEntity;
 import com.example.imprint.domain.user.UserJoinRequestDto;
 import com.example.imprint.domain.user.UserLoginRequestDto;
@@ -23,50 +24,42 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/signup")
-    public ResponseEntity<String> join(@RequestBody @Valid UserJoinRequestDto requestDto) {
+    public ResponseEntity<ApiResponseDto<Void>> join(@RequestBody @Valid UserJoinRequestDto requestDto) {
         userService.registerUser(requestDto);
-        return ResponseEntity.ok("회원가입이 성공적으로 완료되었습니다.");
+        return ResponseEntity.ok(ApiResponseDto.success(null, "회원가입이 성공적으로 완료되었습니다."));
     }
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid UserLoginRequestDto loginDto, HttpServletRequest request) {
-
-        // 서비스에서 로그인 검증
+    public ResponseEntity<ApiResponseDto<Void>> login(@RequestBody @Valid UserLoginRequestDto loginDto, HttpServletRequest request) {
         userService.login(loginDto.getEmail(), loginDto.getPassword());
 
-        // 세션 생성 및 저장 (로그인 상태 유지)
         HttpSession session = request.getSession();
         session.setAttribute("userEmail", loginDto.getEmail());
 
-        // response.status 가 200 으로 전송
-        return ResponseEntity.ok("로그인이 성공적으로 완료되었습니다.");
+        return ResponseEntity.ok(ApiResponseDto.success(null, "로그인이 성공적으로 완료되었습니다."));
     }
 
     // 로그아웃
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request) {
+    public ResponseEntity<ApiResponseDto<Void>> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
-        return ResponseEntity.ok("로그아웃 되었습니다.");
+        return ResponseEntity.ok(ApiResponseDto.success(null, "로그아웃 되었습니다."));
     }
 
-    // 담고있는 정보 반환
+    // 내 정보 조회 (핵심 데이터 반환)
     @GetMapping("/user")
-    public ResponseEntity<UserResponseDto> getMyInfo(
+    public ResponseEntity<ApiResponseDto<UserResponseDto>> getMyInfo(
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        // 인증 정보가 없는 경우 처리 (SecurityConfig에서 권한 설정을 했다면 사실 여기까지 못 들어옴)
         if (customUserDetails == null) {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(401).body(ApiResponseDto.fail("로그인이 필요합니다."));
         }
 
-        // CustomUserDetails 내부에 있는 UserEntity 꺼내기
         UserEntity user = customUserDetails.getUser();
-
-        // DTO로 변환하여 반환
-        return ResponseEntity.ok(UserResponseDto.fromEntity(user));
+        return ResponseEntity.ok(ApiResponseDto.success(UserResponseDto.fromEntity(user), "내 정보를 성공적으로 불러왔습니다."));
     }
 }
