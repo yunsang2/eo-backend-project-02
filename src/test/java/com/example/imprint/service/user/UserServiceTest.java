@@ -1,6 +1,6 @@
 package com.example.imprint.service.user;
 
-import com.example.imprint.domain.user.UserJoinRequestDto;
+import com.example.imprint.domain.user.UserSignupRequestDto;
 import com.example.imprint.repository.user.EmailVerificationRepository;
 import com.example.imprint.repository.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,7 @@ class UserServiceTest {
     @DisplayName("회원가입 성공 테스트")
     void registerUser_Success() {
 
-        UserJoinRequestDto request = createRequestDto();
+        UserSignupRequestDto request = createRequestDto();
 
         // Mock 설정: 중복 없고, 이메일 인증 완료됨
         when(userRepository.existsByEmail(any())).thenReturn(false);
@@ -52,7 +52,7 @@ class UserServiceTest {
     @DisplayName("이메일 인증 안됐을 때 가입 실패 테스트")
     void registerUser_Fail_NotVerified() {
 
-        UserJoinRequestDto request = createRequestDto();
+        UserSignupRequestDto request = createRequestDto();
         when(verificationRepository.existsByEmailAndIsVerifiedTrue(any())).thenReturn(false);
 
 
@@ -61,7 +61,7 @@ class UserServiceTest {
         }, "이메일 인증이 완료되지 않았습니다.");
     }
 
-    private UserJoinRequestDto createRequestDto() {
-        return new UserJoinRequestDto("test@gmail.com", "password123!", "tester", "홍길동");
+    private UserSignupRequestDto createRequestDto() {
+        return new UserSignupRequestDto("test@gmail.com", "password123!", "tester", "홍길동");
     }
 }
