@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Table(name = "MESSAGES")
 // 상속 으로 보낸(createdAt)시간 조회
 public class MessageEntity extends BaseTimeEntity {
 
@@ -25,12 +26,12 @@ public class MessageEntity extends BaseTimeEntity {
 
     // 보내는 사람
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "SENDER_ID")
     private UserEntity sender;
 
     // 받는 사람
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_id")
+    @JoinColumn(name = "RECEIVER_ID")
     private UserEntity receiver;
 
     // 읽음 여부

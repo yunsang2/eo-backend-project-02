@@ -22,6 +22,11 @@ public class ApiResponseDto<T> {
         return new ApiResponseDto<>(true, data, message);
     }
 
+    // 데이터 없이 메시지만 보내는 성공 응답 (회원가입 완료 등)
+    public static ApiResponseDto<Void> success(String message) {
+        return new ApiResponseDto<>(true, null, message);
+    }
+
     // 실패 응답 정적 팩토리 메서드
     public static <T> ApiResponseDto<T> fail(String message) {
         return new ApiResponseDto<>(false, null, message);

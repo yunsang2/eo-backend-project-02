@@ -33,6 +33,7 @@ public class BoardPermissionEntity extends BaseTimeEntity {
 
     // 역할
     @Column(nullable = false)
+    @Builder.Default
     private UserRole isManager = UserRole.USER;
     private UserRole isAdmin = UserRole.USER;
 

@@ -33,18 +33,12 @@ public class SecurityConfig {
                         // 정적 리소스 및 화면 주소 허용
                         .requestMatchers("/", "/test.html", "/loginForm.html", "/main.html").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                        .requestMatchers("/boards/**").permitAll()    // 모든 접근 허용
-                        .requestMatchers("/h2-console/**").permitAll()    //
+                        .requestMatchers("/boards/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/loginForm.html")
-                        // 프론트가 POST를 보낼 위치
-                        .loginProcessingUrl("/account/login")
-                        // 필드명 일치
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/main.html", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -54,6 +48,6 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                 );
 
-            return http.build();
+        return http.build();
     }
 }

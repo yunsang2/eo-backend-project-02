@@ -48,7 +48,7 @@ public class PostController {
     @GetMapping("/write")
     public String writeForm(HttpSession session, Model model) {
         if (session.getAttribute("loginUser") == null) {
-            return "redirect:/login";
+            return "redirect:/account/login";
         }
         model.addAttribute("postDto", new PostRequestDto());
         return "board/write";
@@ -61,7 +61,7 @@ public class PostController {
                         RedirectAttributes redirectAttributes) {
 
         UserEntity user = (UserEntity) session.getAttribute("loginUser");
-        if (user == null) return "redirect:/login";
+        if (user == null) return "redirect:/account/login";
 
         if (bindingResult.hasErrors()) return "board/write";
 

@@ -22,6 +22,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     //별명 가져오기(쪽지용)
     Optional<UserEntity> findByNickname(String nickname);
 
+    //비밀번호 재설정 토큰으로 유저 찾기
+    Optional<UserEntity> findByResetToken(String resetToken);
     //관리자찾음
     Optional<UserEntity> findByRole(String role);
 }

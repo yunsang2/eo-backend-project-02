@@ -1,6 +1,7 @@
 package com.example.imprint.security.user;
 
 import com.example.imprint.domain.user.UserEntity;
+import com.example.imprint.domain.user.UserStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,14 +40,19 @@ public class CustomUserDetails implements UserDetails {
     // 계정 상태 관리 (모두 true로 설정해야 로그인이 됩니다)
     @Override
     public boolean isAccountNonExpired() { return true; }
+
     @Override
     public boolean isAccountNonLocked() {
-        return !user.getStatus().equals("BANNED");
+        return user.getStatus() != UserStatus.BANNED;
+
     }
     @Override
     public boolean isCredentialsNonExpired() { return true; }
+
     @Override
-    public boolean isEnabled() { return true; }
+    public boolean isEnabled() {
+        return user.getStatus() == UserStatus.ACTIVE;
+    }
 
     // 정적 팩토리 메서드
     public static CustomUserDetails of(UserEntity user) {
