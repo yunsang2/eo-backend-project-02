@@ -2,7 +2,7 @@ package com.example.imprint.controller.user;
 
 import com.example.imprint.domain.ApiResponseDto;
 import com.example.imprint.domain.user.UserEntity;
-import com.example.imprint.domain.user.UserJoinRequestDto;
+import com.example.imprint.domain.user.UserSignupRequestDto;
 import com.example.imprint.domain.user.UserLoginRequestDto;
 import com.example.imprint.domain.user.UserResponseDto;
 import com.example.imprint.security.user.CustomUserDetails;
@@ -32,7 +32,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponseDto<Void>> join(@RequestBody @Valid UserJoinRequestDto requestDto) {
+    public ResponseEntity<ApiResponseDto<Void>> join(@RequestBody @Valid UserSignupRequestDto requestDto) {
         userService.registerUser(requestDto);
         return ResponseEntity.ok(ApiResponseDto.success(null, "회원가입이 성공적으로 완료되었습니다."));
     }

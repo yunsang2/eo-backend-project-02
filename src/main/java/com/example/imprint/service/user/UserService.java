@@ -1,7 +1,7 @@
 package com.example.imprint.service.user;
 
 import com.example.imprint.domain.user.UserEntity;
-import com.example.imprint.domain.user.UserJoinRequestDto;
+import com.example.imprint.domain.user.UserSignupRequestDto;
 import com.example.imprint.repository.user.EmailVerificationRepository;
 import com.example.imprint.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UserService {
     private final MailService mailService;
 
     @Transactional
-    public void registerUser(UserJoinRequestDto request) {
+    public void registerUser(UserSignupRequestDto request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("이미 가입된 이메일입니다.");
         }
