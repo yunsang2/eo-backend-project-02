@@ -144,7 +144,7 @@ public class SupportsService {
 
         // 2. 사용자가 보낸 메시지 조회(삭제하지 않은 것만)
         List<MessageEntity> messages = messageRepository
-                .findBySenderAndDeletedBySenderFalse(user);
+                .findAllBySenderAndDeletedBySenderFalseOrderByCreatedAtDesc(user);
 
         log.debug("조회된 메시지 수: {}", messages.size());
 
@@ -181,7 +181,7 @@ public class SupportsService {
 
         // 3. 관리자가 받은 메시지 조회 (삭제하지 않은 것만)
         List<MessageEntity> messages = messageRepository
-                .findByReceiverAndDeletedByReceiverFalse(admin);
+                .findAllByReceiverAndDeletedByReceiverFalseOrderByCreatedAtDesc(admin);
 
         log.debug("조회된 전체 문의 수: {}", messages.size());
 

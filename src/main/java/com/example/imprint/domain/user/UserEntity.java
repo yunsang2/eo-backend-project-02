@@ -2,8 +2,12 @@ package com.example.imprint.domain.user;
 
 
 import com.example.imprint.domain.BaseTimeEntity;
+import com.example.imprint.domain.board.BoardEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -35,6 +39,10 @@ public class UserEntity extends BaseTimeEntity {
     @Builder.Default
     private UserRole role = UserRole.USER;
 
+    @ManyToMany(mappedBy = "managerList")
+    @Builder.Default
+    private List<BoardEntity> managingBoardList = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @Builder.Default
@@ -60,7 +68,7 @@ public class UserEntity extends BaseTimeEntity {
         this.status = UserStatus.DELETED;
     }
 
-    public void changeRole(UserRole newRole) {
+    public void updateRole(UserRole newRole) {
         this.role = newRole;
     }
 

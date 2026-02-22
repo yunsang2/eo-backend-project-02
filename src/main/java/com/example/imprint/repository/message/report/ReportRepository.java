@@ -14,4 +14,7 @@ public interface ReportRepository extends JpaRepository<ReportEntity, Long> {
 
     // 최신순으로 정렬
     List<ReportEntity> findAllByOrderByCreatedAtDesc();
+
+    // 관리자가 아직 읽지 않은(확인하지 않은) 신고 수 카운트
+    long countByIsReadFalse();
 }

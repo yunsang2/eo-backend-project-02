@@ -35,11 +35,18 @@ public class ReportEntity extends BaseTimeEntity {
     // 신고자
     private UserEntity reporter;
 
+    // 확인 여부
+    private boolean isRead = false;
+
     @Builder
     public ReportEntity(Long targetUserId, String reportCategory, String content, UserEntity reporter) {
         this.targetUserId = targetUserId;
         this.reportCategory = reportCategory;
         this.content = content;
         this.reporter = reporter;
+    }
+
+    public void markAsRead() {
+        this.isRead = true;
     }
 }
