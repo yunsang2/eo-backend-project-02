@@ -1,6 +1,7 @@
 package com.example.imprint.service.post;
 
 import com.example.imprint.domain.board.BoardEntity;
+import com.example.imprint.domain.page.PaginationDto;
 import com.example.imprint.domain.post.PostDto;
 import com.example.imprint.domain.post.PostEntity;
 import com.example.imprint.domain.post.PostMapper;
@@ -14,6 +15,7 @@ import com.example.imprint.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -246,5 +248,29 @@ public class PostServiceImpl implements PostService {
         log.info("게시물 목록을 조회했습니다. (page = {})", pageable.getPageNumber());
 
         return postEntityPage.map(PostMapper::fromEntityToDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PostDto.pagedResponse searchPosts(String keyword, int page, int size) {
+        // 페이징 설정 (Spring Data JPA는 0페이지부터 시작하므로 page - 1)
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        // 검색 쿼리 실행
+        Page<PostEntity> postPage = postRepository.searchAllByKeyword(keyword, pageable);
+
+        // Entity -> Dto 변환
+        List<PostDto.Response> postList = postPage.getContent().stream()
+                .map(PostMapper::fromEntityToDto)
+                .toList();
+
+        // 페이지네이션 정보 생성
+        PaginationDto pagination = PaginationDto.of(
+                postPage.getPageable(),
+                postPage.getTotalElements(),
+                postPage.getTotalPages()
+        );
+
+        return new PostDto.pagedResponse(postList, pagination);
     }
 }

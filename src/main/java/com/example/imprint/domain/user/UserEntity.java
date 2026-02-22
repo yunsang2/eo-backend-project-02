@@ -72,6 +72,11 @@ public class UserEntity extends BaseTimeEntity {
         this.role = newRole;
     }
 
+    // 유저 닉네임 변경
+    public void updateProfile(String nickname, String name) {
+        this.nickname = nickname;
+        this.name = name;
+    }
 
     // --- 유저 비밀번호 변경 로직 메서드 ---
     // 비밀번호 변경 (암호화된 비번을 받음)
