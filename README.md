@@ -42,9 +42,9 @@
 
 ### **Tools & Standard**
 - **IDE**: IntelliJ IDEA
-- **Database Design**: [ERDcloud 바로가기]([링크])
-- **UI/UX Design**: [Figma 바로가기]([링크])
-- **Web Standard**: [W3C Web 바로가기]([링크])
+- **Database Design**: ERDcloud
+- **UI/UX Design**: Figma
+- **Web Standard**: W3C Web
 
 ---
 
