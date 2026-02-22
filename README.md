@@ -5,17 +5,58 @@
 
 ---
 
+## 👥 팀 소개 (Team Introduction)
+
+### **Team Name: YaO (Young and Old / 영앤올드)**
+> "다양한 세대와 시각이 조화를 이루어, 누구나 깊은 흔적(Imprint)을 남길 수 있는 소통의 장을 만듭니다."
+
+| 이름 | 역할 | 주요 담당 범위 |
+| :--- | :---: | :--- |
+| **윤상이** | **Team Leader** | 프로젝트 총괄, 시스템 아키텍처 설계, 관리자 대시보드 및 권한 로직 구현 |
+| **현길용** | Member | 사용자 인증 시스템(MailSender), 보안 설정 및 회원 관리 API 개발 |
+| **정창규** | Member | 게시판 및 게시글 동적 관리 시스템, 페이징 최적화, 쪽지/댓글 소통 시스템 |
+| **김희성** | Member | 전체적인 프론트 작업, 신고 프로세스 및 실시간 모니터링 기능 구현 |
+
+---
+
+## 📅 개발 기간 및 소요 (Development Period)
+
+**총 개발 기간: 2026.02.03 ~ 2026.02.23 (3주)**
+
+* **1주차**: 요구사항 분석, Figma 화면 설계, ERDcloud를 활용한 DB 논리 구조 설계
+* **2주차**: 핵심 API 구현 (인증, 게시판, 권한 체계), Security 보안 설정
+* **3주차**: 부가 기능(쪽지, 신고) 및 관리자 대시보드 구현, AWS 배포 및 W3C 표준 검증
+
+---
+
+## 🛠 기술 스택 및 개발 환경 (Tech Stack & Environment)
+
+### **Backend & Infrastructure**
+- **Language**: Java 25
+- **Framework**: Spring Boot 4.0.2
+- **Security**: Spring Security (Session-based)
+- **Database**: H2 (In-memory)
+- **Infrastructure**: AWS (Amazon Web Services)
+- **Library**: Lombok, Jakarta Validation, JavaMailSender
+- **Architecture**: REST API, Entity-DTO Mapping (Record 사용)
+
+### **Tools & Standard**
+- **IDE**: IntelliJ IDEA
+- **Database Design**: [ERDcloud 바로가기]([링크])
+- **UI/UX Design**: [Figma 바로가기]([링크])
+- **Web Standard**: [W3C Web 바로가기]([링크])
+
+---
+
 ## 🚀 주요 기능 (Key Features)
 
 ### 👤 사용자 및 인증 (User & Auth)
-- **이메일 인증**: 회원가입 전 `JavaMailSender`를 이용한 6자리 인증 코드 검증 (유효시간 5분, 재발송 제한 1분).
+- **이메일 인증**: `JavaMailSender`를 이용한 6자리 인증 코드 검증 (유효시간 5분, 재발송 제한 1분).
 - **보안 로그인**: `BCrypt` 암호화 기반 비밀번호 저장 및 세션 방식의 인증 관리.
-- **비밀번호 재설정**: 이메일 토큰 발급 및 유효시간(10분) 검증을 통한 안전한 비밀번호 변경.
 - **권한 체계**: `USER`(일반), `MANAGER`(게시판 관리), `ADMIN`(전체 관리)으로 세분화된 접근 제어.
 
 ### 📋 게시판 및 게시글 (Board & Post)
 - **동적 게시판**: 관리자에 의한 게시판 생성/수정/삭제 및 페이징 목록 조회.
-- **게시물 관리**: 게시판별 게시물 작성, 수정, 삭제 및 최신순 페이징 조회.
 - **권한 기반 삭제**: 작성자 본인 외에도 해당 게시판의 매니저와 전체 관리자가 게시물을 삭제할 수 있는 운영 권한 부여.
 
 ### 💬 커뮤니티 소통 (Comment & Message)
@@ -25,31 +66,6 @@
 ### 🛡️ 운영 및 관리 (Admin & Report)
 - **신고 시스템**: 불량 유저에 대한 카테고리별 신고 접수 및 관리자 목록 조회.
 - **관리자 대시보드**: 전체 가입자, 금일 가입자, 활성/차단 유저 현황 및 미확인 신고 건수 실시간 모니터링.
-- **권한 위임**: 특정 유저를 게시판 매니저로 임명/해임 시 `BOARD_MANAGERS` 테이블과 연동하여 유저 직급 자동 동기화.
-
----
-
-## 🛠 기술 스택 (Tech Stack)
-
-- **Backend**: Java 25, Spring Boot 4.0.2
-- **Database**: H2
-- **Security**: Spring Security (Session-based)
-- **Library**: Lombok, Jakarta Validation, JavaMailSender
-- **Architecture**: REST API, Entity-DTO Mapping (Record 사용)
-
----
-
-## 📖 API Reference (Quick View)
-
-
-| 기능 | Method | URL | 권한 |
-| :--- | :---: | :--- | :---: |
-| 회원가입 | `POST` | `/account/signup` | 비로그인 |
-| 로그인 | `POST` | `/account/login` | 비로그인 |
-| 게시판 목록 | `GET` | `/boards` | 전체 |
-| 게시글 작성 | `POST` | `/boards/{id}/posts` | USER |
-| 쪽지 발송 | `POST` | `/message/send` | USER |
-| 유저 상태 수정 | `PATCH` | `/api/admin/dashboard/users/{id}/status` | ADMIN |
 
 ---
 
@@ -60,7 +76,19 @@
 - **Boards & Posts**: 1:N 관계를 통한 게시판 중심의 콘텐츠 구조.
 - **BoardManagers**: 특정 게시판과 매니저 간의 다대다(N:M) 매핑 및 권한 처리.
 - **Messages**: 발신자/수신자 간의 독립적인 삭제 상태를 지원하는 소통 데이터.
-- **EmailVerifications**: 회원가입 및 보안을 위한 임시 인증 데이터 저장소.
+
+---
+
+## 📖 API Reference (Quick View)
+
+| 기능 | Method | URL | 권한 |
+| :--- | :---: | :--- | :---: |
+| 회원가입 | `POST` | `/account/signup` | 비로그인 |
+| 로그인 | `POST` | `/account/login` | 비로그인 |
+| 게시판 목록 | `GET` | `/boards` | 전체 |
+| 게시글 작성 | `POST` | `/boards/{id}/posts` | USER |
+| 쪽지 발송 | `POST` | `/message/send` | USER |
+| 유저 상태 수정 | `PATCH` | `/api/admin/dashboard/users/{id}/status` | ADMIN |
 
 ---
 
