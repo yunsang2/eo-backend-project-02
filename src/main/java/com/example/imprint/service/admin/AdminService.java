@@ -7,6 +7,8 @@ import com.example.imprint.domain.user.UserStatus;
 import com.example.imprint.repository.board.BoardRepository;
 import com.example.imprint.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,18 @@ public class AdminService {
 
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
+
+    // 전체 회원 목록 조회 (관리자용)
+    @Transactional(readOnly = true)
+    public Page<UserEntity> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    // 유저 검색 (관리자용)
+    @Transactional(readOnly = true)
+    public Page<UserEntity> searchUsers(String keyword, Pageable pageable) {
+        return userRepository.searchUsers(keyword, pageable);
+    }
 
     // 유저 직급 수정 (ADMIN 전용)
     @Transactional

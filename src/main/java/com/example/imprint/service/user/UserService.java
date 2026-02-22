@@ -1,9 +1,6 @@
 package com.example.imprint.service.user;
 
-import com.example.imprint.domain.user.UserEntity;
-import com.example.imprint.domain.user.UserResponseDto;
-import com.example.imprint.domain.user.UserSignupRequestDto;
-import com.example.imprint.domain.user.UserStatus;
+import com.example.imprint.domain.user.*;
 import com.example.imprint.repository.user.EmailVerificationRepository;
 import com.example.imprint.repository.user.UserRepository;
 import com.example.imprint.security.user.CustomUserDetails;
@@ -127,5 +124,36 @@ public class UserService {
         );
 
         return user.getStatus().equals(UserStatus.ACTIVE);
+    }
+
+    // 회원 탈퇴
+    public void withdrawUser(String email) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 이미 탈퇴한 회원인지 방어 로직
+        if (user.getStatus() == UserStatus.DELETED) {
+            throw new IllegalArgumentException("이미 탈퇴 처리된 회원입니다.");
+        }
+
+        // 상태를 DELETED로 변경 (Soft Delete)
+        user.delete();
+    }
+
+    // 정보 수정(이름, 별명)
+    @Transactional
+    public void updateUserInfo(String email, UserUpdateRequestDto request) {
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        // 닉네임을 변경하려는 경우에만 중복 체크 진행
+        if (!user.getNickname().equals(request.getNickname())) {
+            if (userRepository.existsByNickname(request.getNickname())) {
+                throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
+            }
+        }
+
+        // 엔티티 값 변경 (Dirty Checking으로 자동 UPDATE 됨)
+        user.updateProfile(request.getNickname(), request.getName());
     }
 }

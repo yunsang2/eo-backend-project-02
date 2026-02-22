@@ -3,8 +3,8 @@ package com.example.imprint.controller.user;
 import com.example.imprint.domain.ApiResponseDto;
 import com.example.imprint.domain.user.UserEntity;
 import com.example.imprint.domain.user.UserSignupRequestDto;
-import com.example.imprint.domain.user.UserLoginRequestDto;
 import com.example.imprint.domain.user.UserResponseDto;
+import com.example.imprint.domain.user.UserUpdateRequestDto;
 import com.example.imprint.security.user.CustomUserDetails;
 import com.example.imprint.security.user.CustomUserDetailsService;
 import com.example.imprint.service.user.UserService;
@@ -13,11 +13,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -38,7 +35,7 @@ public class UserController {
     }
 
     // 내 정보 조회 (핵심 데이터 반환)
-    @GetMapping({ "", "/user" })
+    @GetMapping({ "", "/info" })
     public ResponseEntity<ApiResponseDto<UserResponseDto>> getMyInfo(
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
@@ -48,6 +45,21 @@ public class UserController {
 
         UserEntity user = customUserDetails.getUser();
         return ResponseEntity.ok(ApiResponseDto.success(UserResponseDto.fromEntity(user), "내 정보를 성공적으로 불러왔습니다."));
+    }
+
+    // 내 정보 수정 (이름, 별명)
+    @PutMapping("/info/update")
+    public ResponseEntity<ApiResponseDto<Void>> updateMyInfo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestBody @Valid UserUpdateRequestDto requestDto) {
+
+        if (customUserDetails == null) {
+            throw new AccessDeniedException("로그인이 필요합니다.");
+        }
+
+        userService.updateUserInfo(customUserDetails.getUsername(), requestDto);
+
+        return ResponseEntity.ok(ApiResponseDto.success("회원 정보가 성공적으로 수정되었습니다."));
     }
 
     // 비밀번호 재설정 링크 발송 API
@@ -82,5 +94,27 @@ public class UserController {
         userService.resetPassword(token, newPassword);
 
         return ResponseEntity.ok(ApiResponseDto.success(null, "비밀번호가 성공적으로 변경되었습니다."));
+    }
+
+    // 회원 탈퇴
+    @DeleteMapping("/leave")
+    public ResponseEntity<ApiResponseDto<Void>> withdraw(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            HttpServletRequest request) {
+
+        if (customUserDetails == null) {
+            throw new AccessDeniedException("로그인이 필요합니다.");
+        }
+
+        // 유저 상태를 탈퇴(DELETED)로 변경
+        userService.withdrawUser(customUserDetails.getUsername());
+
+        // 탈퇴했으므로 현재 세션 강제 로그아웃 처리
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        return ResponseEntity.ok(ApiResponseDto.success("회원 탈퇴가 성공적으로 처리되었습니다."));
     }
 }

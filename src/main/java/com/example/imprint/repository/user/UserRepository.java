@@ -2,7 +2,11 @@ package com.example.imprint.repository.user;
 
 import com.example.imprint.domain.user.UserEntity;
 import com.example.imprint.domain.user.UserStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -33,4 +37,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     // 상태별 유저 수 (ACTIVE, BANNED 등)
     long countByStatus(UserStatus status);
+
+    // 관리자용 유저 검색 (이메일, 닉네임, 이름 통합 검색)
+    @Query("SELECT u FROM UserEntity u " +
+            "WHERE u.email LIKE %:keyword% " +
+            "OR u.nickname LIKE %:keyword% " +
+            "OR u.name LIKE %:keyword% " +
+            "ORDER BY u.createdAt DESC")
+    Page<UserEntity> searchUsers(@Param("keyword") String keyword, Pageable pageable);
 }

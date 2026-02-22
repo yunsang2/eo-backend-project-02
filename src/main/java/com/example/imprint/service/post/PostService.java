@@ -15,6 +15,7 @@ public interface PostService {
     void delete(Long boardId, Long postId) throws AccessDeniedException;
     PostDto.Response get(Long id);
     PostDto.Response get(Long boardId, Long postId);
+    PostDto.pagedResponse searchPosts(String keyword, int page, int size);
     List<PostDto.Response> getPostList(Long boardId);
     Page<PostDto.Response> getPostList(Long boardId, Pageable pageable);
 }
