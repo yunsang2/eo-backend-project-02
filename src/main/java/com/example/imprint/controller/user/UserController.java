@@ -37,44 +37,8 @@ public class UserController {
         return ResponseEntity.ok(ApiResponseDto.success(null, "회원가입이 성공적으로 완료되었습니다."));
     }
 
-    // 로그인
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponseDto<Void>> login(
-            @RequestBody UserLoginRequestDto loginDto,
-            HttpServletRequest request) {
-
-        // 서비스에서 비밀번호 및 유저 검증 (여기서 실패하면 GlobalExceptionHandler가 400 에러 반환)
-        userService.login(loginDto.getEmail(), loginDto.getPassword());
-
-        // 시큐리티 인증 정보 로드
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(loginDto.getEmail());
-
-        // 인증 토큰 생성
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-        // 시큐리티 컨텍스트에 인증 정보 설정
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // 세션에 컨텍스트 저장 (이걸 해야 다음 요청에서도 로그인 상태가 유지됨)
-        HttpSession session = request.getSession(true);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-
-        return ResponseEntity.ok(ApiResponseDto.success(null, "로그인이 성공적으로 완료되었습니다."));
-    }
-
-    // 로그아웃
-    @PostMapping("/logout")
-    public ResponseEntity<ApiResponseDto<Void>> logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        return ResponseEntity.ok(ApiResponseDto.success(null, "로그아웃 되었습니다."));
-    }
-
     // 내 정보 조회 (핵심 데이터 반환)
-    @GetMapping("/user")
+    @GetMapping({ "", "/user" })
     public ResponseEntity<ApiResponseDto<UserResponseDto>> getMyInfo(
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 

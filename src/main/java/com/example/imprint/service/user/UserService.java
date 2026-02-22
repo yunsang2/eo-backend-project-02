@@ -1,14 +1,20 @@
 package com.example.imprint.service.user;
 
 import com.example.imprint.domain.user.UserEntity;
+import com.example.imprint.domain.user.UserResponseDto;
 import com.example.imprint.domain.user.UserSignupRequestDto;
+import com.example.imprint.domain.user.UserStatus;
 import com.example.imprint.repository.user.EmailVerificationRepository;
 import com.example.imprint.repository.user.UserRepository;
+import com.example.imprint.security.user.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
 import java.util.UUID;
 
 @Service
@@ -25,6 +31,7 @@ public class UserService {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("이미 가입된 이메일입니다.");
         }
+
         if (userRepository.existsByNickname(request.getNickname())) {
             throw new IllegalArgumentException("이미 사용중인 닉네임입니다.");
         }
@@ -47,7 +54,17 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional(readOnly = true)
+    public UserResponseDto getCurrentUser() throws AccessDeniedException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails)) {
+            throw new AccessDeniedException("로그인이 필요합니다.");
+        }
+
+        return UserResponseDto.fromEntity(((CustomUserDetails) authentication.getPrincipal()).getUser());
+    }
+
+    @Transactional
     public void login(String email, String password) {
         // 이메일 존재 확인
         UserEntity user = userRepository.findByEmail(email)
@@ -102,5 +119,13 @@ public class UserService {
 
         // 보안을 위해 사용한 토큰 즉시 제거
         user.clearResetToken();
+    }
+
+    public boolean isActive(Long id) {
+        UserEntity user = userRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("사용자를 찾을 수 없습니다. (id: " + id + ")")
+        );
+
+        return user.getStatus().equals(UserStatus.ACTIVE);
     }
 }

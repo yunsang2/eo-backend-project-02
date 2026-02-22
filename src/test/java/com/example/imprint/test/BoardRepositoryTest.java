@@ -1,8 +1,6 @@
 package com.example.imprint.test;
 
-import com.example.imprint.domain.BoardEntity;
 import com.example.imprint.domain.user.UserEntity;
-import com.example.imprint.repository.BoardRepository;
 import com.example.imprint.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;

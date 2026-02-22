@@ -3,14 +3,18 @@ package com.example.imprint.controller.user;
 import com.example.imprint.domain.ApiResponseDto;
 import com.example.imprint.domain.admin.DashboardResponseDto;
 import com.example.imprint.domain.message.MessageResponseDto;
+import com.example.imprint.domain.message.report.ReportResponseDto;
 import com.example.imprint.domain.user.UserRole;
 import com.example.imprint.domain.user.UserStatus;
+import com.example.imprint.security.user.CustomUserDetails;
 import com.example.imprint.service.admin.DashboardService;
 import com.example.imprint.service.admin.AdminService;
 import com.example.imprint.service.message.MessageService;
+import com.example.imprint.service.message.report.ReportService;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,22 +29,13 @@ public class AdminController {
     private final AdminService adminService;
     private final DashboardService DashboardService;
     private final MessageService messageService;
+    private final ReportService reportService;
 
     // 대시보드 메인 오버뷰 데이터 조회
     @GetMapping("/overview")
     public ResponseEntity<ApiResponseDto<DashboardResponseDto>> getDashboardOverview() {
         DashboardResponseDto overview = DashboardService.getOverview();
         return ResponseEntity.ok(ApiResponseDto.success(overview));
-    }
-
-    // 유저 직급 수정 ( ADMIN ↔ MANAGER ↔ USER )
-    @PatchMapping("/users/{userId}/role")
-    public ResponseEntity<ApiResponseDto<Void>> updateUserRole(
-            @PathVariable Long userId,
-            @RequestBody RoleUpdateRequest request) {
-
-        adminService.updateUserRole(userId, request.getNewRole());
-        return ResponseEntity.ok(ApiResponseDto.success("사용자의 권한이 성공적으로 변경되었습니다."));
     }
 
     // 유저 상태 수정 ( ACTIVE ↔ BANNED )
@@ -53,31 +48,34 @@ public class AdminController {
         return ResponseEntity.ok(ApiResponseDto.success("사용자의 상태가 성공적으로 변경되었습니다."));
     }
 
-    // 특정 게시판의 매니저로 임명
-    @PostMapping("/boards/{boardId}/managers/{userId}")
-    public ResponseEntity<ApiResponseDto<Void>> assignManager(
-            @PathVariable Long boardId,
-            @PathVariable Long userId) {
-
-        adminService.assignManager(userId, boardId);
-        return ResponseEntity.ok(ApiResponseDto.success("해당 사용자가 게시판 매니저로 임명되었습니다."));
-    }
-
-    // 매니저 권한 회수 및 강등
-    @DeleteMapping("/boards/{boardId}/managers/{userId}")
-    public ResponseEntity<ApiResponseDto<Void>> dismissManager(
-            @PathVariable Long boardId,
-            @PathVariable Long userId) {
-
-        adminService.dismissManager(userId, boardId);
-        return ResponseEntity.ok(ApiResponseDto.success("해당 사용자의 매니저 권한이 회수되었습니다."));
-    }
-
-    // 관리자에게 온 쪽지 목록 조회
+    // 관리자에게 온 문의 목록 조회
     @GetMapping("/supports")
-    public ResponseEntity<ApiResponseDto<List<MessageResponseDto>>> getSupports() {
+    public ResponseEntity<ApiResponseDto<List<MessageResponseDto>>> getAllSupports() {
         List<MessageResponseDto> supports = messageService.getAdminSupports();
         return ResponseEntity.ok(ApiResponseDto.success(supports));
+    }
+
+    // 특정 문의 상세 내용 조회 및 읽음 처리
+    @GetMapping("/supports/{supportId}")
+    public ResponseEntity<ApiResponseDto<MessageResponseDto>> getSupport(
+            @PathVariable Long supportId,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        MessageResponseDto detail = messageService.readMessage(supportId, userDetails.getUser().getEmail());
+
+        return ResponseEntity.ok(ApiResponseDto.success(detail));
+    }
+
+    // 관리자에게 온 신고 목록 조회
+    @GetMapping("/reports")
+    public ResponseEntity<ApiResponseDto<List<ReportResponseDto>>> getAllReports() {
+        return ResponseEntity.ok(ApiResponseDto.success(reportService.getAllReports()));
+    }
+
+    // 특정 신고 상세 내용 조회 및 읽음 처리
+    @GetMapping("/reports/{reportId}")
+    public ResponseEntity<ApiResponseDto<ReportResponseDto>> getReport(@PathVariable Long reportId) {
+        return ResponseEntity.ok(ApiResponseDto.success(reportService.getReportDetail(reportId)));
     }
 
 

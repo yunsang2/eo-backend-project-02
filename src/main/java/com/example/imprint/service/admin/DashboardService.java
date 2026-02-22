@@ -2,9 +2,10 @@ package com.example.imprint.service.admin;
 
 import com.example.imprint.domain.admin.DashboardResponseDto;
 import com.example.imprint.domain.user.UserStatus;
-import com.example.imprint.repository.PostRepository;
+import com.example.imprint.repository.comment.CommentRepository;
 import com.example.imprint.repository.message.MessageRepository;
 import com.example.imprint.repository.message.report.ReportRepository;
+import com.example.imprint.repository.post.PostRepository;
 import com.example.imprint.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ import java.time.LocalDateTime;
 public class DashboardService {
 
     private final UserRepository userRepository;
-//    private final PostRepository postRepository;
-//    private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final ReportRepository reportRepository;
     private final MessageRepository messageRepository;
 
@@ -36,10 +37,14 @@ public class DashboardService {
                 .activeUserCount(userRepository.countByStatus(UserStatus.ACTIVE))
                 // 차단유저(BANNED)
                 .bannedUserCount(userRepository.countByStatus(UserStatus.BANNED))
-                // .todayPostCount(postRepository.countByCreatedAtAfter(startOfDay))
-                // .todayCommentCount(commentRepository.countByCreatedAtAfter(startOfDay))
-                .pendingReportCount(reportRepository.count())
-//                .pendingSupportCount(messageRepository.countPendingInquiries())
+                // 하루에 작성된 게시물 수
+                .todayPostCount(postRepository.countByCreatedAtAfter(startOfDay))
+                // 하루에 작성된 댓글 수
+                .todayCommentCount(commentRepository.countByCreatedAtAfter(startOfDay))
+                // 신고함 안읽은 숫자
+                .pendingReportCount(reportRepository.countByIsReadFalse())
+                // 문의함 안읽은 숫자
+                .pendingSupportCount(messageRepository.countPendingSupports())
                 .build();
     }
 

@@ -1,10 +1,9 @@
 package com.example.imprint.service.user;
 
-import com.example.imprint.domain.BoardEntity;
-import com.example.imprint.domain.user.BoardManager;
+import com.example.imprint.domain.board.BoardEntity;
 import com.example.imprint.domain.user.UserEntity;
 import com.example.imprint.domain.user.UserRole;
-import com.example.imprint.repository.BoardRepository;
+import com.example.imprint.repository.board.BoardRepository;
 import com.example.imprint.repository.user.BoardManagerRepository;
 import com.example.imprint.repository.user.UserRepository;
 import com.example.imprint.service.admin.AdminService;

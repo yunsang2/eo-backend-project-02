@@ -46,4 +46,16 @@ public class ReportService {
                 .map(ReportResponseDto::new)
                 .toList();
     }
+
+    // 관리자용 특정 신고 건의 상세 내용 조회
+    @Transactional(readOnly = true)
+    public ReportResponseDto getReportDetail(Long reportId) {
+        ReportEntity report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 신고 내역을 찾을 수 없습니다."));
+
+        // 문의함(supports)과 똑같이 관리자가 확인하면 상태 변경!
+        report.markAsRead();
+
+        return new ReportResponseDto(report);
+    }
 }
