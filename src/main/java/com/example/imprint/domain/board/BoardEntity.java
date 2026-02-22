@@ -4,9 +4,7 @@ import com.example.imprint.domain.BaseTimeEntity;
 import com.example.imprint.domain.post.PostEntity;
 import com.example.imprint.domain.user.UserEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +13,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "boards")
+@AllArgsConstructor
+@Builder
 public class BoardEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
