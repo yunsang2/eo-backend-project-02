@@ -1,6 +1,8 @@
 package com.example.imprint.test;
 
+import com.example.imprint.domain.board.BoardEntity;
 import com.example.imprint.domain.user.UserEntity;
+import com.example.imprint.repository.board.BoardRepository;
 import com.example.imprint.repository.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +45,6 @@ class BoardRepositoryTest {
         // given
         BoardEntity board= BoardEntity.builder()
                 .name("테스트 게시판")
-                .creator(testUser)
                 .build();
 
         // when
@@ -52,7 +53,6 @@ class BoardRepositoryTest {
         // then
         assertThat(saved.getId()).isNotNull();
         assertThat(saved.getName()).isEqualTo("테스트 게시판");
-        assertThat(saved.getCreator().getId()).isEqualTo(testUser.getId());
     }
 
     @Test
@@ -61,7 +61,6 @@ class BoardRepositoryTest {
         // given
         BoardEntity board = BoardEntity.builder()
                 .name("개발 게시판")
-                .creator(testUser)
                 .build();
         boardRepository.save(board);
 
