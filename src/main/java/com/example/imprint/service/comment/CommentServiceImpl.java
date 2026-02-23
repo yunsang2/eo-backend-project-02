@@ -33,6 +33,7 @@ public class CommentServiceImpl implements CommentService {
     private final UserService userService;
 
     @Override
+    @Transactional
     public Long write(Long postId, CommentDto.Write dto) {
         log.info("댓글 생성을 시도합니다.");
 
@@ -66,6 +67,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public Long update(Long commentId, CommentDto.Update dto) {
         log.info("댓글 수정을 시도합니다.");
 
@@ -97,6 +99,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public Long update(Long postId, Long commentId, CommentDto.Update dto) {
         log.info("댓글 수정을 시도합니다.");
 
@@ -132,6 +135,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         log.info("댓글 삭제를 시도합니다.");
 
@@ -157,6 +161,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void delete(Long postId, Long commentId) {
         log.info("댓글 삭제를 시도합니다.");
 

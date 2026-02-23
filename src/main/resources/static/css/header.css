@@ -1,0 +1,124 @@
+/* ── App shell ── */
+#app {
+    display: grid;
+    grid-template-rows: var(--header-h) 1fr;
+    height: 100vh;
+}
+
+/* ── Header ── */
+#header {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    gap: 10px;
+    z-index: 20;
+}
+
+.h-left   { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.h-center { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.h-right  { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--fg-bright);
+    white-space: nowrap;
+    letter-spacing: .01em;
+    flex-shrink: 0;
+}
+.logo svg { width: 15px; height: 15px; color: var(--blue); flex-shrink: 0; }
+
+/* Sidebar toggle */
+.sidebar-toggle {
+    width: 26px; height: 26px;
+    border-radius: 4px;
+    color: var(--fg-dim);
+    transition: background 100ms, color 100ms;
+}
+.sidebar-toggle:hover { background: var(--bg-hover); color: var(--fg-bright); }
+.sidebar-toggle svg   { width: 14px; height: 14px; }
+
+/* Page title pill */
+.page-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 22px;
+    padding: 0 9px;
+    background: var(--bg-active);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--fg-mid);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.page-title .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+}
+
+/* BASE URL input */
+.base-url-wrap {
+    display: flex;
+    align-items: center;
+    height: 24px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    flex: 1;
+    min-width: 0;
+    max-width: 340px;
+    transition: border-color 100ms;
+}
+.base-url-wrap:focus-within { border-color: rgba(97,175,239,.4); }
+
+.base-url-label {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 8px;
+    background: var(--bg-elevated);
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--fg-dim);
+    white-space: nowrap;
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+#baseUrlInput {
+    flex: 1;
+    height: 100%;
+    padding: 0 8px;
+    background: var(--bg-base);
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--fg-bright);
+    min-width: 0;
+}
+#baseUrlInput::placeholder { color: var(--fg-dim); }
+
+/* Status pill */
+.status-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10.5px;
+    color: var(--fg-dim);
+    white-space: nowrap;
+}
+.status-pill .indicator {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 2px rgba(152,195,121,.14);
+}
