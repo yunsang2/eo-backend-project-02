@@ -71,8 +71,8 @@ public class SecurityConfig {
                         // 회원가입 및 이메일 인증 로그인 관련 API 모두 허용
                         .requestMatchers("/api/mail/**", "/account/**").permitAll()
                         // 정적 리소스 및 화면 주소 허용
-                        .requestMatchers("/", "/commands.html").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/index.html", "/css/**", "/javascript/**", "/images/**", "/favicon.ico", "/error").permitAll()
+                        .requestMatchers("/", "/index").permitAll()
                         .requestMatchers(HttpMethod.POST, "/boards").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/boards/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/boards/{id}").hasRole("ADMIN")
