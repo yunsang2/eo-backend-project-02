@@ -17,10 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +38,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Long write(Long boardId, PostDto.Write dto) throws AccessDeniedException {
+    public Long write(Long boardId, PostDto.Write dto) {
         log.info("게시물 생성을 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
@@ -73,7 +73,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Long update(Long postId, PostDto.Update dto) throws AccessDeniedException {
+    public Long update(Long postId, PostDto.Update dto) {
         log.info("게시물 수정을 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
@@ -105,7 +105,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Long update(Long boardId, Long postId, PostDto.Update dto) throws AccessDeniedException {
+    public Long update(Long boardId, Long postId, PostDto.Update dto) {
         log.info("게시물 수정을 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
@@ -141,7 +141,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public void delete(Long id) throws AccessDeniedException {
+    public void delete(Long id) {
         log.info("게시물 삭제를 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
@@ -167,7 +167,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public void delete(Long boardId, Long postId) throws AccessDeniedException {
+    public void delete(Long boardId, Long postId) {
         log.info("게시물 삭제를 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(

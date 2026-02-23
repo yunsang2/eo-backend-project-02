@@ -15,9 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,7 +137,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public void addManager(Long boardId, Long userId) throws AccessDeniedException {
+    public void addManager(Long boardId, Long userId) {
         log.info("게시판에 사용자 매니저 등록을 시도합니다.");
 
         BoardEntity board = boardRepository.findById(boardId).orElseThrow(
@@ -151,7 +151,7 @@ public class BoardServiceImpl implements BoardService {
         );
 
         if (user.getRole().equals(UserRole.ADMIN) || board.getManagerList().contains(user)) {
-            throw new AccessDeniedException("이미 권한을 가지고 있습니다.");
+            throw new RuntimeException("이미 권한을 가지고 있습니다.");
         }
 
         log.info("매니저로 등록할 사용자를 선택했습니다.\n{}", user);

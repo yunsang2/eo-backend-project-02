@@ -29,7 +29,7 @@ spring:
         use_sql_comments: false
 
   thymeleaf:
-    prefix: file:src/main/resources/templates/
+    prefix: classpath:/templates/
     cache: false
 
   data:

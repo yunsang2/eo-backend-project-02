@@ -1,7 +1,6 @@
 package com.example.imprint.controller.user;
 
 import com.example.imprint.domain.ApiResponseDto;
-import com.example.imprint.domain.user.UserEntity;
 import com.example.imprint.domain.user.UserSignupRequestDto;
 import com.example.imprint.domain.user.UserResponseDto;
 import com.example.imprint.domain.user.UserUpdateRequestDto;
@@ -37,14 +36,13 @@ public class UserController {
     // 내 정보 조회 (핵심 데이터 반환)
     @GetMapping({ "", "/info" })
     public ResponseEntity<ApiResponseDto<UserResponseDto>> getMyInfo(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+            @AuthenticationPrincipal CustomUserDetails customUserDetails) throws AccessDeniedException {
 
         if (customUserDetails == null) {
             return ResponseEntity.status(401).body(ApiResponseDto.fail("로그인이 필요합니다."));
         }
 
-        UserEntity user = customUserDetails.getUser();
-        return ResponseEntity.ok(ApiResponseDto.success(UserResponseDto.fromEntity(user), "내 정보를 성공적으로 불러왔습니다."));
+        return ResponseEntity.ok(ApiResponseDto.success(userService.getCurrentUser(), "내 정보를 성공적으로 불러왔습니다."));
     }
 
     // 내 정보 수정 (이름, 별명)
@@ -97,7 +95,7 @@ public class UserController {
     }
 
     // 회원 탈퇴
-    @DeleteMapping("/leave")
+    @DeleteMapping
     public ResponseEntity<ApiResponseDto<Void>> withdraw(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             HttpServletRequest request) {
