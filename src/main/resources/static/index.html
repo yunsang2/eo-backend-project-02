@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imprint — Console</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/default.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/sidebar.css">
+    <link rel="stylesheet" href="./css/content.css">
+    <link rel="stylesheet" href="./css/console.css">
+</head>
+<body>
+<div id="app">
+
+<!-- ═══ HEADER ═══ -->
+<header id="header">
+    <div class="h-left">
+        <button type="button" class="sidebar-toggle icon" id="sidebarToggle" title="사이드바 토글 (S)">
+            <svg fill="currentColor" viewBox="-2.5 0 19 19">
+                <path d="M.789 4.836a1.03 1.03 0 0 1 1.03-1.029h10.363a1.03 1.03 0 1 1 0 2.059H1.818A1.03 1.03 0 0 1 .79 4.836zm12.422 4.347a1.03 1.03 0 0 1-1.03 1.029H1.819a1.03 1.03 0 0 1 0-2.059h10.364a1.03 1.03 0 0 1 1.029 1.03zm0 4.345a1.03 1.03 0 0 1-1.03 1.03H1.819a1.03 1.03 0 1 1 0-2.059h10.364a1.03 1.03 0 0 1 1.029 1.03z"/>
+            </svg>
+        </button>
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M5 3C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3H5Z M9.05037 8.46459C8.65985 8.07406 8.02668 8.07406 7.63616 8.46459C7.24563 8.85511 7.24563 9.48828 7.63616 9.8788L9.75748 12.0001L7.63616 14.1214C7.24563 14.512 7.24563 15.1451 7.63616 15.5357C8.02668 15.9262 8.65985 15.9262 9.05037 15.5357L11.8788 12.7072C12.2693 12.3167 12.2693 11.6835 11.8788 11.293L9.05037 8.46459Z M13.0001 15.0001C13.0001 14.4478 13.4478 14.0001 14.0001 14.0001H16.0001C16.5524 14.0001 17.0001 14.4478 17.0001 15.0001C17.0001 15.5524 16.5524 16.0001 16.0001 16.0001H14.0001C13.4478 16.0001 13.0001 15.5524 13.0001 15.0001Z"/>
+            </svg>
+            Imprint — console
+        </div>
+    </div>
+    <div class="h-center">
+        <div class="page-title">
+            <span class="dot"></span>
+            <span id="headerTitle">—</span>
+        </div>
+        <div class="base-url-wrap">
+            <span class="base-url-label">BASE URL</span>
+            <input id="baseUrlInput" type="text" placeholder="http://localhost:8080" autocomplete="off" spellcheck="false">
+        </div>
+    </div>
+    <div class="h-right">
+        <div class="status-pill">
+            <span class="indicator"></span>
+            <span>Ready</span>
+        </div>
+    </div>
+</header>
+
+<!-- ═══ BODY ROW ═══ -->
+<div id="body-row">
+
+<!-- ── SIDEBAR ── -->
+<aside id="sidebar">
+
+    <div class="nav-section">
+        <div class="nav-label">사용자</div>
+        <ul>
+            <li><a href="/?form=1">회원가입</a></li>
+            <li><a href="/?form=2">로그인</a></li>
+            <li><a href="/?form=3">내 정보</a></li>
+            <li><a href="/?form=4">내 정보 수정</a></li>
+            <li><a href="/?form=5">비밀번호 찾기</a></li>
+            <li><a href="/?form=6">로그아웃</a></li>
+            <li><a href="/?form=7">회원탈퇴</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-label">게시판</div>
+        <ul>
+            <li><a href="/?form=8">게시판 조회</a></li>
+            <li><a href="/?form=9">게시판 생성</a></li>
+            <li><a href="/?form=10">게시판 수정</a></li>
+            <li><a href="/?form=11">게시판 삭제</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-label">게시물</div>
+        <ul>
+            <li><a href="/?form=12">게시물 조회</a></li>
+            <li><a href="/?form=13">게시물 생성</a></li>
+            <li><a href="/?form=14">게시물 수정</a></li>
+            <li><a href="/?form=15">게시물 삭제</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-label">댓글</div>
+        <ul>
+            <li><a href="/?form=16">댓글 조회</a></li>
+            <li><a href="/?form=17">댓글 생성</a></li>
+            <li><a href="/?form=18">댓글 수정</a></li>
+            <li><a href="/?form=19">댓글 삭제</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-label">쪽지</div>
+        <ul>
+            <li><a href="/?form=20">보낸 쪽지 조회</a></li>
+            <li><a href="/?form=21">받은 쪽지 조회</a></li>
+            <li><a href="/?form=22">쪽지 보내기</a></li>
+            <li><a href="/?form=23">보낸 쪽지 삭제</a></li>
+            <li><a href="/?form=24">받은 쪽지 삭제</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-label">문의 &amp; 신고</div>
+        <ul>
+            <li><a href="/?form=25">문의하기</a></li>
+            <li><a href="/?form=26">신고하기</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-label">관리자</div>
+        <ul>
+            <li><a href="/?form=27">대시보드 조회</a></li>
+            <li><a href="/?form=28">문의 조회</a></li>
+            <li><a href="/?form=29">신고 조회</a></li>
+            <li><a href="/?form=30">회원 조회</a></li>
+            <li><a href="/?form=31">매니저 관리</a></li>
+            <li><a href="/?form=32">계정 잠금</a></li>
+            <li><a href="/?form=33">회원 검색</a></li>
+        </ul>
+    </div>
+
+</aside>
+
+<!-- ── CONTENT ── -->
+<main id="content">
+
+<!-- FORM 1: 회원가입 -->
+<div data-form="1" data-title="회원가입"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/api/mail/send</span><span class="form-label">인증번호 발송</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>email</label><input type="email" name="email" placeholder="user@example.com" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/api/mail/verify</span><span class="form-label">인증번호 확인</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>email</label><input type="email" name="email" placeholder="user@example.com" required></div>
+            <div class="field-row"><label>code</label><input type="text" name="code" placeholder="123456" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/account/signup</span><span class="form-label">회원가입</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>email</label><input type="email" name="email" placeholder="user@example.com" required></div>
+            <div class="field-row"><label>password</label><input type="password" name="password" placeholder="••••••••" required></div>
+            <div class="field-row"><label>nickname</label><input type="text" name="nickname" placeholder="별명" required></div>
+            <div class="field-row"><label>name</label><input type="text" name="name" placeholder="실명" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 2: 로그인 -->
+<div data-form="2" data-title="로그인"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/account/login</span><span class="form-label">로그인</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>email</label><input type="email" name="email" placeholder="user@example.com" required></div>
+            <div class="field-row"><label>password</label><input type="password" name="password" placeholder="••••••••" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 3: 내 정보 -->
+<div data-form="3" data-title="내 정보"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/account/info</span><span class="form-label">내 정보 조회</span></div>
+        <form class="form-card-body"><input class="run-btn" type="submit" value="▶  RUN"></form>
+    </div>
+</div></div>
+
+<!-- FORM 4: 내 정보 수정 -->
+<div data-form="4" data-title="내 정보 수정"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-put">PUT</span><span class="endpoint">/account/info/update</span><span class="form-label">내 정보 수정</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>nickname</label><input type="text" name="nickname" placeholder="새 별명" required></div>
+            <div class="field-row"><label>name</label><input type="text" name="name" placeholder="새 실명" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 5: 비밀번호 찾기 -->
+<div data-form="5" data-title="비밀번호 찾기"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/account/password/send-link</span><span class="form-label">재설정 링크 발송</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>email</label><input type="email" name="email" placeholder="user@example.com" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/account/password/reset</span><span class="form-label">비밀번호 재설정</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>token</label><input type="text" name="token" placeholder="리셋 토큰" required></div>
+            <div class="field-row"><label>newPassword</label><input type="password" name="newPassword" placeholder="새 비밀번호" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 6: 로그아웃 -->
+<div data-form="6" data-title="로그아웃"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/account/logout</span><span class="form-label">로그아웃</span></div>
+        <form class="form-card-body"><input class="run-btn" type="submit" value="▶  RUN"></form>
+    </div>
+</div></div>
+
+<!-- FORM 7: 회원탈퇴 -->
+<div data-form="7" data-title="회원탈퇴"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-delete">DELETE</span><span class="endpoint">/account</span><span class="form-label">회원탈퇴</span></div>
+        <form class="form-card-body"><input class="run-btn" type="submit" value="▶  RUN"></form>
+    </div>
+</div></div>
+
+<!-- FORM 8: 게시판 조회 -->
+<div data-form="8" data-title="게시판 조회"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/boards</span><span class="form-label">게시판 목록</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>page</label><input type="number" name="page" value="1"></div>
+            <div class="field-row"><label>size</label><input type="number" name="size" value="10"></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/boards/{id}</span><span class="form-label">게시판 단건</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>id</label><input type="number" name="id" placeholder="게시판 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 9: 게시판 생성 -->
+<div data-form="9" data-title="게시판 생성"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/boards</span><span class="form-label">게시판 생성</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>name</label><input type="text" name="name" placeholder="게시판 이름" required></div>
+            <div class="field-row"><label>description</label><input type="text" name="description" placeholder="설명 (선택)"></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 10: 게시판 수정 -->
+<div data-form="10" data-title="게시판 수정"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-put">PUT</span><span class="endpoint">/boards/{id}</span><span class="form-label">게시판 수정</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>id</label><input type="number" name="id" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>name</label><input type="text" name="name" placeholder="새 이름"></div>
+            <div class="field-row"><label>description</label><input type="text" name="description" placeholder="새 설명"></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 11: 게시판 삭제 -->
+<div data-form="11" data-title="게시판 삭제"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-delete">DELETE</span><span class="endpoint">/boards/{id}</span><span class="form-label">게시판 삭제</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>id</label><input type="number" name="id" placeholder="게시판 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 12: 게시물 조회 -->
+<div data-form="12" data-title="게시물 조회"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/boards/{boardId}/posts</span><span class="form-label">게시물 목록</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>page</label><input type="number" name="page" value="1"></div>
+            <div class="field-row"><label>size</label><input type="number" name="size" value="10"></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/boards/{boardId}/posts/{postId}</span><span class="form-label">게시물 단건</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>postId</label><input type="number" name="postId" placeholder="게시물 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 13: 게시물 생성 -->
+<div data-form="13" data-title="게시물 생성"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/boards/{boardId}/posts</span><span class="form-label">게시물 생성</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>title</label><input type="text" name="title" placeholder="제목" required></div>
+            <div class="field-row"><label>content</label><textarea name="content" placeholder="내용 (Ctrl+Enter 로 제출)" required></textarea></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+            <span class="form-hint">Ctrl+Enter</span>
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 14: 게시물 수정 -->
+<div data-form="14" data-title="게시물 수정"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-put">PUT</span><span class="endpoint">/boards/{boardId}/posts/{postId}</span><span class="form-label">게시물 수정</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>postId</label><input type="number" name="postId" placeholder="게시물 ID" required></div>
+            <div class="field-row"><label>title</label><input type="text" name="title" placeholder="새 제목"></div>
+            <div class="field-row"><label>content</label><textarea name="content" placeholder="새 내용 (Ctrl+Enter)"></textarea></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+            <span class="form-hint">Ctrl+Enter</span>
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 15: 게시물 삭제 -->
+<div data-form="15" data-title="게시물 삭제"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-delete">DELETE</span><span class="endpoint">/boards/{boardId}/posts/{postId}</span><span class="form-label">게시물 삭제</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>postId</label><input type="number" name="postId" placeholder="게시물 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 16: 댓글 조회 -->
+<div data-form="16" data-title="댓글 조회"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/boards/{boardId}/posts/{postId}/comments</span><span class="form-label">댓글 목록</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>postId</label><input type="number" name="postId" placeholder="게시물 ID" required></div>
+            <div class="field-row"><label>page</label><input type="number" name="page" value="1"></div>
+            <div class="field-row"><label>size</label><input type="number" name="size" value="10"></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/boards/{boardId}/posts/{postId}/comments/{commentId}</span><span class="form-label">댓글 단건</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>postId</label><input type="number" name="postId" placeholder="게시물 ID" required></div>
+            <div class="field-row"><label>commentId</label><input type="number" name="commentId" placeholder="댓글 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 17: 댓글 생성 -->
+<div data-form="17" data-title="댓글 생성"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/boards/{boardId}/posts/{postId}/comments</span><span class="form-label">댓글 작성</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>postId</label><input type="number" name="postId" placeholder="게시물 ID" required></div>
+            <div class="field-row"><label>content</label><textarea name="content" placeholder="댓글 내용 (Ctrl+Enter)" required></textarea></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+            <span class="form-hint">Ctrl+Enter</span>
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 18: 댓글 수정 -->
+<div data-form="18" data-title="댓글 수정"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-put">PUT</span><span class="endpoint">/boards/{boardId}/posts/{postId}/comments/{commentId}</span><span class="form-label">댓글 수정</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>postId</label><input type="number" name="postId" placeholder="게시물 ID" required></div>
+            <div class="field-row"><label>commentId</label><input type="number" name="commentId" placeholder="댓글 ID" required></div>
+            <div class="field-row"><label>content</label><textarea name="content" placeholder="새 내용 (Ctrl+Enter)" required></textarea></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+            <span class="form-hint">Ctrl+Enter</span>
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 19: 댓글 삭제 -->
+<div data-form="19" data-title="댓글 삭제"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-delete">DELETE</span><span class="endpoint">/boards/{boardId}/posts/{postId}/comments/{commentId}</span><span class="form-label">댓글 삭제</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>postId</label><input type="number" name="postId" placeholder="게시물 ID" required></div>
+            <div class="field-row"><label>commentId</label><input type="number" name="commentId" placeholder="댓글 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 20: 보낸 쪽지 -->
+<div data-form="20" data-title="보낸 쪽지 조회"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/message/sent</span><span class="form-label">보낸 쪽지 목록</span></div>
+        <form class="form-card-body"><input class="run-btn" type="submit" value="▶  RUN"></form>
+    </div>
+</div></div>
+
+<!-- FORM 21: 받은 쪽지 -->
+<div data-form="21" data-title="받은 쪽지 조회"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/message/list</span><span class="form-label">받은 쪽지 목록</span></div>
+        <form class="form-card-body"><input class="run-btn" type="submit" value="▶  RUN"></form>
+    </div>
+</div></div>
+
+<!-- FORM 22: 쪽지 보내기 -->
+<div data-form="22" data-title="쪽지 보내기"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/message/send</span><span class="form-label">쪽지 보내기</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>receiverNickname</label><input type="text" name="receiverNickname" placeholder="받는 사람 닉네임" required></div>
+            <div class="field-row"><label>content</label><textarea name="content" placeholder="내용 (Ctrl+Enter)" required></textarea></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+            <span class="form-hint">Ctrl+Enter</span>
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 23: 보낸 쪽지 삭제 -->
+<div data-form="23" data-title="보낸 쪽지 삭제"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-delete">DELETE</span><span class="endpoint">/message/sent/{id}</span><span class="form-label">보낸 쪽지 삭제</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>id</label><input type="number" name="id" placeholder="쪽지 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 24: 받은 쪽지 삭제 -->
+<div data-form="24" data-title="받은 쪽지 삭제"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-delete">DELETE</span><span class="endpoint">/message/received/{id}</span><span class="form-label">받은 쪽지 삭제</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>id</label><input type="number" name="id" placeholder="쪽지 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 25: 문의 -->
+<div data-form="25" data-title="문의하기"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/message/support</span><span class="form-label">문의하기</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>content</label><textarea name="content" placeholder="문의 내용 (Ctrl+Enter)" required></textarea></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+            <span class="form-hint">Ctrl+Enter</span>
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 26: 신고 -->
+<div data-form="26" data-title="신고하기"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/api/reports</span><span class="form-label">신고하기</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>targetId</label><input type="number" name="targetId" placeholder="신고 대상 ID" required></div>
+            <div class="field-row"><label>targetType</label><input type="text" name="targetType" placeholder="USER / POST / COMMENT"></div>
+            <div class="field-row"><label>reason</label><textarea name="reason" placeholder="신고 사유 (Ctrl+Enter)" required></textarea></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+            <span class="form-hint">Ctrl+Enter</span>
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 27: 대시보드 -->
+<div data-form="27" data-title="대시보드 조회"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/api/admin/dashboard/overview</span><span class="form-label">대시보드</span></div>
+        <form class="form-card-body"><input class="run-btn" type="submit" value="▶  RUN"></form>
+    </div>
+</div></div>
+
+<!-- FORM 28: 문의 조회 (관리자) -->
+<div data-form="28" data-title="문의 조회 (관리자)"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/api/admin/dashboard/supports</span><span class="form-label">문의 목록</span></div>
+        <form class="form-card-body"><input class="run-btn" type="submit" value="▶  RUN"></form>
+    </div>
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/api/admin/dashboard/supports/{id}</span><span class="form-label">문의 단건</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>supportId</label><input type="number" name="supportId" placeholder="문의 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 29: 신고 조회 (관리자) -->
+<div data-form="29" data-title="신고 조회 (관리자)"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/api/admin/dashboard/reports</span><span class="form-label">신고 목록</span></div>
+        <form class="form-card-body"><input class="run-btn" type="submit" value="▶  RUN"></form>
+    </div>
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/api/admin/dashboard/reports/{id}</span><span class="form-label">신고 단건</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>reportId</label><input type="number" name="reportId" placeholder="신고 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 30: 회원 조회 (관리자) -->
+<div data-form="30" data-title="회원 조회 (관리자)"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/api/admin/dashboard/users</span><span class="form-label">회원 목록</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>page</label><input type="number" name="page" value="1"></div>
+            <div class="field-row"><label>size</label><input type="number" name="size" value="10"></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 31: 매니저 관리 -->
+<div data-form="31" data-title="매니저 관리"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/boards/{boardId}/manager</span><span class="form-label">매니저 조회</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-post">POST</span><span class="endpoint">/boards/{boardId}/manager</span><span class="form-label">매니저 추가</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>userId</label><input type="number" name="userId" placeholder="유저 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-delete">DELETE</span><span class="endpoint">/boards/{boardId}/manager</span><span class="form-label">매니저 제거</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>boardId</label><input type="number" name="boardId" placeholder="게시판 ID" required></div>
+            <div class="field-row"><label>userId</label><input type="number" name="userId" placeholder="유저 ID" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 32: 계정 잠금 -->
+<div data-form="32" data-title="계정 잠금"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-patch">PATCH</span><span class="endpoint">/api/admin/dashboard/users/{userId}/status</span><span class="form-label">계정 상태 변경</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>userId</label><input type="number" name="userId" placeholder="유저 ID" required></div>
+            <div class="field-row"><label>newStatus</label><input type="text" name="newStatus" placeholder="ACTIVE / BANNED" required></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+<!-- FORM 33: 회원 검색 -->
+<div data-form="33" data-title="회원 검색"><div class="content-scroll">
+    <div class="form-card">
+        <div class="form-card-header"><span class="method-badge badge-get">GET</span><span class="endpoint">/api/admin/dashboard/users/search</span><span class="form-label">회원 검색</span></div>
+        <form class="form-card-body">
+            <div class="field-row"><label>keyword</label><input type="text" name="keyword" placeholder="이메일 / 닉네임 / 이름" required></div>
+            <div class="field-row"><label>page</label><input type="number" name="page" value="1"></div>
+            <div class="field-row"><label>size</label><input type="number" name="size" value="10"></div>
+            <input class="run-btn" type="submit" value="▶  RUN">
+        </form>
+    </div>
+</div></div>
+
+</main>
+
+<!-- ── CONSOLE ── -->
+<div id="console">
+    <div id="console-header">
+        <div class="con-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="4 17 10 11 4 5"/>
+                <line x1="12" y1="19" x2="20" y2="19"/>
+            </svg>
+            Output
+        </div>
+        <div id="logCount"></div>
+        <div class="con-filters">
+            <button class="con-filter active" data-filter="all">All</button>
+            <button class="con-filter" data-filter="success">Success</button>
+            <button class="con-filter" data-filter="error">Error</button>
+        </div>
+        <div class="con-actions">
+            <button type="button" id="clearConsole">Clear</button>
+            <button type="button" id="resetConsole" class="btn-reset">Reset</button>
+        </div>
+    </div>
+    <div id="console-log">
+        <div id="console-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <polyline points="9 9 12 6 15 9"/>
+                <line x1="12" y1="6" x2="12" y2="18"/>
+            </svg>
+            <p>API 요청을 실행하면<br>여기에 결과가 표시됩니다</p>
+        </div>
+    </div>
+</div>
+
+</div><!-- /body-row -->
+</div><!-- /app -->
+
+<script src="./javascript/commands.js"></script>
+<script src="./javascript/console.js"></script>
+<script src="./javascript/controller.js"></script>
+</body>
+</html>

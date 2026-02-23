@@ -1,0 +1,62 @@
+/* ── Body row ── */
+#body-row {
+    display: flex;
+    overflow: hidden;
+    height: 100%;
+}
+
+/* ── Sidebar ── */
+#sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    background: var(--bg-panel);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 6px 0 60px;
+    flex-shrink: 0;
+    transition: width 220ms ease, min-width 220ms ease,
+                opacity 180ms ease, padding 220ms ease;
+}
+#sidebar.collapsed {
+    width: 0; min-width: 0;
+    padding: 0; opacity: 0;
+    overflow: hidden;
+}
+
+/* Sections */
+.nav-section { padding: 2px 0; }
+.nav-section + .nav-section {
+    border-top: 1px solid var(--border);
+    margin-top: 2px; padding-top: 4px;
+}
+
+.nav-label {
+    padding: 7px 14px 3px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    white-space: nowrap;
+}
+
+#sidebar ul { padding: 1px 6px; }
+
+#sidebar ul li a {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--fg);
+    white-space: nowrap;
+    transition: background 60ms, color 60ms;
+}
+#sidebar ul li a:hover  { background: var(--bg-hover); color: var(--fg-bright); }
+#sidebar ul li a.active {
+    background: rgba(97,175,239,.08);
+    color: var(--blue);
+    font-weight: 500;
+}
