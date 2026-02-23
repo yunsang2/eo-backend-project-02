@@ -5,13 +5,13 @@ import com.example.imprint.repository.user.EmailVerificationRepository;
 import com.example.imprint.repository.user.UserRepository;
 import com.example.imprint.security.user.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.AccessDeniedException;
 import java.util.UUID;
 
 @Service
@@ -51,14 +51,18 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserResponseDto getCurrentUser() throws AccessDeniedException {
+    public UserResponseDto getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails)) {
             throw new AccessDeniedException("로그인이 필요합니다.");
         }
 
-        return UserResponseDto.fromEntity(((CustomUserDetails) authentication.getPrincipal()).getUser());
+        UserEntity user = userRepository.findById(((CustomUserDetails) authentication.getPrincipal()).getUser().getId()).orElseThrow(
+                () -> new RuntimeException("흐음")
+        );
+
+        return UserResponseDto.fromEntity(user);
     }
 
     @Transactional
@@ -88,7 +92,7 @@ public class UserService {
         user.setPasswordResetToken(token, expiry);
 
         // 메일 발송
-        String resetLink = "http://localhost:8080/reset-password.html?token=" + token;
+        String resetLink = "http://localhost:8080/?form=5&token=" + token;
         String subject = "[Imprint] 비밀번호 재설정을 위한 링크입니다.";
         String text = user.getName() + "님, 안녕하세요.\n\n" +
                 "아래 링크를 클릭하여 비밀번호를 재설정해 주세요. 본 요청은 10분간 유효합니다.\n" +
@@ -127,6 +131,7 @@ public class UserService {
     }
 
     // 회원 탈퇴
+    @Transactional
     public void withdrawUser(String email) {
         UserEntity user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));

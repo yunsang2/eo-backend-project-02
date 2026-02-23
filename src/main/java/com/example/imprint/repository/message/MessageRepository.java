@@ -19,10 +19,10 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
     long countByReceiverAndIsReadFalseAndDeletedByReceiverFalse(UserEntity receiver);
 
     // 수신자의 권한이 ADMIN인 메시지들을 최신순으로 조회
-    @Query("SELECT m FROM MessageEntity m JOIN m.receiver u WHERE u.role = 'ADMIN' ORDER BY m.createdAt DESC")
+    @Query("SELECT m FROM MessageEntity m JOIN m.receiver u WHERE u.role = com.example.imprint.domain.user.UserRole.ADMIN ORDER BY m.createdAt DESC")
     List<MessageEntity> findAdminSupports();
 
     // 관리자가 아직 읽지 않은(미처리) 메시지 카운트
-    @Query("SELECT COUNT(m) FROM MessageEntity m JOIN m.receiver u WHERE u.role = 'ADMIN' AND m.isRead = false")
+    @Query("SELECT COUNT(m) FROM MessageEntity m JOIN m.receiver u WHERE u.role = com.example.imprint.domain.user.UserRole.ADMIN AND m.isRead = false")
     long countPendingSupports();
 }

@@ -15,9 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
     private final UserService userService;
 
     @Override
-    public Long write(Long postId, CommentDto.Write dto) throws AccessDeniedException {
+    public Long write(Long postId, CommentDto.Write dto) {
         log.info("댓글 생성을 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
@@ -66,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Long update(Long commentId, CommentDto.Update dto) throws AccessDeniedException {
+    public Long update(Long commentId, CommentDto.Update dto) {
         log.info("댓글 수정을 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
@@ -97,7 +97,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Long update(Long postId, Long commentId, CommentDto.Update dto) throws AccessDeniedException {
+    public Long update(Long postId, Long commentId, CommentDto.Update dto) {
         log.info("댓글 수정을 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
@@ -132,7 +132,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Long id) throws AccessDeniedException {
+    public void delete(Long id) {
         log.info("댓글 삭제를 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
@@ -157,7 +157,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void delete(Long postId, Long commentId) throws AccessDeniedException {
+    public void delete(Long postId, Long commentId) {
         log.info("댓글 삭제를 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
