@@ -1,6 +1,7 @@
 package com.example.imprint.repository.user;
 
 import com.example.imprint.domain.user.UserEntity;
+import com.example.imprint.domain.user.UserRole;
 import com.example.imprint.domain.user.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByResetToken(String resetToken);
 
     //권한 가져오기
-    Optional<UserEntity> findByRole(String role);
+    Optional<UserEntity> findByRole(UserRole role);
 
     // 오늘 가입자 수 조회
     long countByCreatedAtAfter(LocalDateTime startOfDay);

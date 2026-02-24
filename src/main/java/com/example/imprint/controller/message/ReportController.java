@@ -21,9 +21,8 @@ public class ReportController {
     // [사용자] 신고 보내기
     @PostMapping("/api/reports")
     public ResponseEntity<ApiResponseDto<Void>> submitReport(
-            @AuthenticationPrincipal Long reporterId,
             @RequestBody ReportRequestDto request) {
-        reportService.submitReport(reporterId, request);
+        reportService.submitReport(request);
         return ResponseEntity.ok(ApiResponseDto.success("신고가 접수되었습니다."));
     }
 
