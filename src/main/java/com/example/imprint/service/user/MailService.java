@@ -26,7 +26,7 @@ public class MailService {
         verificationRepository.findTopByEmailOrderByCreatedAtDesc(cleanEmail)
                 .ifPresent(existing -> {
                     if (existing.getCreatedAt().isAfter(LocalDateTime.now().minusMinutes(1))) {
-                        throw new IllegalStateException("1분 이내에 이미 인증번호를 요청했습니다. 잠시 후 다시 시도해주세요.");
+                        throw new IllegalArgumentException("1분 이내에 이미 인증번호를 요청했습니다. 잠시 후 다시 시도해주세요.");
                     }
                 });
 
