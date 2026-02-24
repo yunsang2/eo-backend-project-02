@@ -6,6 +6,7 @@ import com.example.imprint.domain.message.report.ReportResponseDto;
 import com.example.imprint.domain.user.UserEntity;
 import com.example.imprint.repository.message.report.ReportRepository;
 import com.example.imprint.repository.user.UserRepository;
+import com.example.imprint.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +19,13 @@ public class ReportService {
 
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     // 신고 접수
     @Transactional
-    public void submitReport(Long reporterId, ReportRequestDto request) {
+    public void submitReport(ReportRequestDto request) {
+        Long reporterId = userService.getCurrentUser().getId();
+
         UserEntity reporter = userRepository.findById(reporterId)
                 .orElseThrow(() -> new IllegalArgumentException("신고자를 찾을 수 없습니다."));
 

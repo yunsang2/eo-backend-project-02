@@ -70,13 +70,13 @@ async function deleteSentMessage(id)                         { return api('DELET
 async function deleteReceivedMessage(id)                     { return api('DELETE', `/message/received/${id}`); }
 
 /* ── 문의 & 신고 ── */
-async function submitSupport(content)                        { return api('POST', '/message/support', { content }); }
-async function submitReport(targetId, targetType, reason)    { return api('POST', '/api/reports', { targetId, targetType, reason }); }
+async function submitSupport(content)                        { return api('POST', '/api/support/send', { content }); }
+async function submitReport(targetUserId, reportCategory, content)    { return api('POST', '/api/reports', { targetUserId, reportCategory, content }); }
 
 /* ── 관리자 ── */
 async function getDashboard()                                { return api('GET',   '/api/admin/dashboard/overview'); }
-async function getAdminSupports()                            { return api('GET',   '/api/admin/dashboard/supports'); }
-async function getAdminSupport(id)                           { return api('GET',   `/api/admin/dashboard/supports/${id}`); }
+async function getAdminSupports()                            { return api('GET',   '/api/support/all-messages'); }
+async function getAdminSupport(id)                           { return api('GET',   `/api/support/${id}/read`); }
 async function getAdminReports()                             { return api('GET',   '/api/admin/dashboard/reports'); }
 async function getAdminReport(id)                            { return api('GET',   `/api/admin/dashboard/reports/${id}`); }
 async function getUserList(page = 1, size = 10)              { return api('GET',   `/api/admin/dashboard/users?page=${page}&size=${size}`); }
