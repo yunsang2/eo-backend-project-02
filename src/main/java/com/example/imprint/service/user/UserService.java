@@ -40,11 +40,18 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
+        // 현재 DB에 저장된 전체 유저 수를 카운트
+        long userCount = userRepository.count();
+
+        // 유저가 0명이면 ADMIN, 1명이라도 있으면 USER 직급 부여
+        UserRole assignedRole = (userCount == 0) ? UserRole.ADMIN : UserRole.USER;
+
         UserEntity user = UserEntity.builder()
                 .email(request.getEmail())
                 .password(encodedPassword)
                 .nickname(request.getNickname())
                 .name(request.getName())
+                .role(assignedRole)
                 .build();
 
         user.activate();
@@ -59,7 +66,7 @@ public class UserService {
         }
 
         UserEntity user = userRepository.findById(((CustomUserDetails) authentication.getPrincipal()).getUser().getId()).orElseThrow(
-                () -> new RuntimeException("흐음")
+                () -> new IllegalArgumentException("흐음")
         );
 
         return UserResponseDto.fromEntity(user);
@@ -124,7 +131,7 @@ public class UserService {
 
     public boolean isActive(Long id) {
         UserEntity user = userRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("사용자를 찾을 수 없습니다. (id: " + id + ")")
+                () -> new IllegalArgumentException("사용자를 찾을 수 없습니다. (id: " + id + ")")
         );
 
         return user.getStatus().equals(UserStatus.ACTIVE);
