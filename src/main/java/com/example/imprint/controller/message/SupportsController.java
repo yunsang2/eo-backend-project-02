@@ -1,6 +1,8 @@
-package com.example.imprint.domain.message.support;
+package com.example.imprint.controller.message;
 
 import com.example.imprint.domain.message.MessageResponseDto;
+import com.example.imprint.domain.message.support.SupportsRequestDto;
+import com.example.imprint.service.message.SupportsService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -26,13 +28,9 @@ public class SupportsController {
     //사용자가 관리자에게 문의를 전송합니다.
     @PostMapping("/send")
     public ResponseEntity<MessageResponseDto> sendSupport(
-            @AuthenticationPrincipal Long userId,
             @Valid @RequestBody SupportsRequestDto requestDto) {
-
-        log.info("[POST /api/support/send] 문의 전송 요청 - 사용자 ID: {}", userId);
-
         try {
-            MessageResponseDto response = supportsService.sendSupportMessage(userId, requestDto);
+            MessageResponseDto response = supportsService.sendSupportMessage(requestDto);
 
             log.info("[POST /api/support/send] 문의 전송 성공 - 메시지 ID: {}", response.getId());
 
@@ -100,15 +98,10 @@ public class SupportsController {
 
     // 관리자가 전체 문의 목록을 조회합니다.
     @GetMapping("/all-messages")
-    public ResponseEntity<List<MessageResponseDto>> getAllMessages(
-            @AuthenticationPrincipal Long adminUserId) {
-
-        log.info("[GET /api/support/all-messages] 전체 문의 조회 요청 - 관리자 ID: {}",
-                adminUserId);
-
+    public ResponseEntity<List<MessageResponseDto>> getAllMessages() {
         try {
             List<MessageResponseDto> messages =
-                    supportsService.getAllSupportMessages(adminUserId);
+                    supportsService.getAllSupportMessages();
 
             log.info("[GET /api/support/all-messages] 전체 문의 조회 성공 - 조회 수: {}",
                     messages.size());
@@ -125,16 +118,11 @@ public class SupportsController {
     }
 
     // 메시지를 읽음 상태로 변경합니다.
-    @PatchMapping("/{messageId}/read")
+    @GetMapping("/{messageId}/read")
     public ResponseEntity<Map<String, String>> markAsRead(
-            @PathVariable @NotNull Long messageId,
-            @AuthenticationPrincipal Long userId) {
-
-        log.info("[PATCH /api/support/{}/read] 읽음 처리 요청 - 사용자 ID: {}",
-                messageId, userId);
-
+            @PathVariable @NotNull Long messageId) {
         try {
-            supportsService.markAsRead(messageId, userId);
+            supportsService.markAsRead(messageId);
 
             Map<String, String> response = new HashMap<>();
             response.put("message", "메시지를 읽었습니다.");

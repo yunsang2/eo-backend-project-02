@@ -1,10 +1,13 @@
-package com.example.imprint.domain.message.support;
+package com.example.imprint.service.message;
 
 import com.example.imprint.domain.message.MessageEntity;
 import com.example.imprint.domain.message.MessageResponseDto;
+import com.example.imprint.domain.message.support.SupportsRequestDto;
 import com.example.imprint.domain.user.UserEntity;
+import com.example.imprint.domain.user.UserRole;
 import com.example.imprint.repository.message.MessageRepository;
 import com.example.imprint.repository.user.UserRepository;
+import com.example.imprint.service.user.UserService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,26 +25,21 @@ public class SupportsService {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     // 사용자가 관리자에게 문의 메시지를 전송합니다.
     @Transactional
     public MessageResponseDto sendSupportMessage(
-            @NotNull Long senderUserId,
             @NotNull SupportsRequestDto requestDto) {
 
-        log.info("문의 메시지 전송 시작 - 사용자 ID: {}", senderUserId);
-
-        // 1. 발신자(사용자) 조회
-        UserEntity sender = userRepository.findById(senderUserId)
-                .orElseThrow(() -> {
-                    log.error("사용자를 찾을 수 없습니다. - ID: {}", senderUserId);
-                    return new IllegalArgumentException("사용자를 찾을 수 없습니다.");
-                });
+        UserEntity sender = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
+                () -> new RuntimeException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404, 사용자를 찾을 수 없음)")
+        );
 
         log.debug("발신자 조회 성공 - 사용자명: {}", sender.getNickname());
 
         // 2. 수신자(관리자) 조회
-        UserEntity admin = userRepository.findByRole("ADMIN")
+        UserEntity admin = userRepository.findByRole(UserRole.ADMIN)
                 .orElseThrow(() -> {
                     log.error("시스템에 관리자가 존재하지 않습니다");
                     return new IllegalArgumentException(
@@ -91,7 +89,7 @@ public class SupportsService {
                 });
 
         // 2. 관리자 권한 검증
-        if(!"ADMIN".equals(admin.getRole())) {
+        if(!UserRole.ADMIN.equals(admin.getRole())) {
             log.error("관리자 권한 없음 - 사용자 ID: {}, Role: {}",
                     adminUserId, admin.getRole());
             throw new IllegalArgumentException("관리자만 답변을 보낼 수 있습니다.");
@@ -160,7 +158,8 @@ public class SupportsService {
     }
 
     // 관리자가 전체 문의 목록을 조회합니다.
-    public List<MessageResponseDto> getAllSupportMessages(@NotNull Long adminUserId) {
+    public List<MessageResponseDto> getAllSupportMessages() {
+        Long adminUserId = userService.getCurrentUser().getId();
         log.info("전체 문의 목록 조회 시작 - 관리자 ID: {}", adminUserId);
 
         // 1. 관리자 조회
@@ -171,7 +170,7 @@ public class SupportsService {
                 });
 
         // 2. 관리자 권한 검증
-        if(!"ADMIN".equals(admin.getRole())) {
+        if(!UserRole.ADMIN.equals(admin.getRole())) {
             log.error("관리자 권한 없음 - 사용자 ID: {}, Role: {}",
                     adminUserId, admin.getRole());
             throw new IllegalArgumentException("관리자만 문의 목록을 조회할 수 있습니다.");
@@ -197,9 +196,8 @@ public class SupportsService {
 
     // 메시지를 읽음 상태로 변경합니다.
     @Transactional
-    public void markAsRead(@NotNull Long messageId, @NotNull Long userId) {
-        log.info("메시지 읽음 처리 시작 - 메시지 ID: {}, 사용자 ID: {}",
-                messageId, userId);
+    public void markAsRead(@NotNull Long messageId) {
+        Long userId = userService.getCurrentUser().getId();
 
         // 1. 메시지 조회
         MessageEntity message = messageRepository.findById(messageId)
