@@ -63,7 +63,7 @@ class ReportServiceTest {
         when(userRepository.existsById(2L)).thenReturn(true);
 
         // when
-        reportService.submitReport(1L, request);
+        reportService.submitReport(request);
 
         // then
         verify(reportRepository, times(1)).save(any(ReportEntity.class));
