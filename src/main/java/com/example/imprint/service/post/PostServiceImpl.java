@@ -42,7 +42,7 @@ public class PostServiceImpl implements PostService {
         log.info("게시물 생성을 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
-                () -> new RuntimeException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404)")
+                () -> new IllegalArgumentException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404)")
         );
 
         if (!userService.isActive(user.getId())) {
@@ -50,7 +50,7 @@ public class PostServiceImpl implements PostService {
         }
 
         BoardEntity board = boardRepository.findById(boardId).orElseThrow(
-                () -> new RuntimeException("게시판을 찾을 수 없습니다. (id = " + boardId + ")")
+                () -> new IllegalArgumentException("게시판을 찾을 수 없습니다. (id = " + boardId + ")")
         );
 
         log.info("게시판을 선택했습니다.\n{}", board);
@@ -77,7 +77,7 @@ public class PostServiceImpl implements PostService {
         log.info("게시물 수정을 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
-                () -> new RuntimeException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404)")
+                () -> new IllegalArgumentException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404)")
         );
 
         Long userId = user.getId();
@@ -87,7 +87,7 @@ public class PostServiceImpl implements PostService {
         }
 
         PostEntity post = postRepository.findById(postId).orElseThrow(
-                () -> new RuntimeException("게시물을 찾을 수 없습니다. (id = " + postId + ")")
+                () -> new IllegalArgumentException("게시물을 찾을 수 없습니다. (id = " + postId + ")")
         );
 
         if (user.getRole() != UserRole.ADMIN && !post.getWriter().getId().equals(userId)) {
@@ -109,7 +109,7 @@ public class PostServiceImpl implements PostService {
         log.info("게시물 수정을 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
-                () -> new RuntimeException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404)")
+                () -> new IllegalArgumentException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404)")
         );
 
         Long userId = user.getId();
@@ -123,7 +123,7 @@ public class PostServiceImpl implements PostService {
         );
 
         if (!post.getBoard().getId().equals(boardId)) {
-            throw new RuntimeException("게시판에서 게시물을 찾을 수 없습니다. (boardId = " + boardId + ", postId = " + postId + ")");
+            throw new IllegalArgumentException("게시판에서 게시물을 찾을 수 없습니다. (boardId = " + boardId + ", postId = " + postId + ")");
         }
 
         if (user.getRole() != UserRole.ADMIN && !post.getWriter().getId().equals(userId)) {
@@ -145,13 +145,13 @@ public class PostServiceImpl implements PostService {
         log.info("게시물 삭제를 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
-                () -> new RuntimeException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404)")
+                () -> new IllegalArgumentException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404)")
         );
 
         Long userId = user.getId();
 
         PostEntity post = postRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("게시물을 찾을 수 없습니다. (id = " + id + ")")
+                () -> new IllegalArgumentException("게시물을 찾을 수 없습니다. (id = " + id + ")")
         );
 
         if (user.getRole() != UserRole.ADMIN && !post.getBoard().getManagerList().contains(user) && !post.getWriter().getId().equals(userId)) {
@@ -171,17 +171,17 @@ public class PostServiceImpl implements PostService {
         log.info("게시물 삭제를 시도합니다.");
 
         UserEntity user = userRepository.findById(userService.getCurrentUser().getId()).orElseThrow(
-                () -> new RuntimeException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404)")
+                () -> new IllegalArgumentException("이스터에그를 찾으셨습니다! (있을 수 없는 오류 404)")
         );
 
         Long userId = user.getId();
 
         PostEntity post = postRepository.findById(postId).orElseThrow(
-                () -> new RuntimeException("게시물을 찾을 수 없습니다. (id = " + postId + ")")
+                () -> new IllegalArgumentException("게시물을 찾을 수 없습니다. (id = " + postId + ")")
         );
 
         if (!post.getBoard().getId().equals(boardId)) {
-            throw new RuntimeException("게시판에서 게시물을 찾을 수 없습니다. (boardId = " + boardId + ", postId = " + postId + ")");
+            throw new IllegalArgumentException("게시판에서 게시물을 찾을 수 없습니다. (boardId = " + boardId + ", postId = " + postId + ")");
         }
 
         if (user.getRole() != UserRole.ADMIN && !post.getBoard().getManagerList().contains(user) && !post.getWriter().getId().equals(userId)) {
@@ -200,7 +200,7 @@ public class PostServiceImpl implements PostService {
         log.info("게시물 조회를 시도합니다.");
 
         PostEntity post = postRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("게시물을 찾을 수 없습니다. (id = " + id + ")")
+                () -> new IllegalArgumentException("게시물을 찾을 수 없습니다. (id = " + id + ")")
         );
 
         log.info("게시물을 조회했습니다.\n{}", post);
@@ -213,11 +213,11 @@ public class PostServiceImpl implements PostService {
         log.info("게시물 조회를 시도합니다.");
 
         PostEntity post = postRepository.findById(postId).orElseThrow(
-                () -> new RuntimeException("게시물을 찾을 수 없습니다. (id = " + postId + ")")
+                () -> new IllegalArgumentException("게시물을 찾을 수 없습니다. (id = " + postId + ")")
         );
 
         if (!post.getBoard().getId().equals(boardId)) {
-            throw new RuntimeException("게시판에서 게시물을 찾을 수 없습니다. (boardId = " + boardId + ", postId = " + postId + ")");
+            throw new IllegalArgumentException("게시판에서 게시물을 찾을 수 없습니다. (boardId = " + boardId + ", postId = " + postId + ")");
         }
 
         log.info("게시물을 조회했습니다.\n{}", post);
