@@ -150,8 +150,14 @@ public class BoardServiceImpl implements BoardService {
                 () ->  new IllegalArgumentException("사용자를 찾을 수 없습니다. (id = " + userId + ")")
         );
 
-        if (user.getRole().equals(UserRole.ADMIN) || board.getManagerList().contains(user)) {
-            throw new RuntimeException("이미 권한을 가지고 있습니다.");
+        // 이미 관리자(ADMIN)인 경우
+        if (user.getRole().equals(UserRole.ADMIN)) {
+            throw new IllegalArgumentException("최고 관리자(ADMIN)는 이미 모든 권한을 가지고 있습니다.");
+        }
+
+        // 이미 해당 게시판의 매니저로 등록된 경우
+        if (board.getManagerList().contains(user)) {
+            throw new IllegalArgumentException("해당 사용자는 이미 이 게시판의 매니저로 등록되어 있습니다.");
         }
 
         log.info("매니저로 등록할 사용자를 선택했습니다.\n{}", user);
